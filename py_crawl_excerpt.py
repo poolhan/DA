@@ -39,7 +39,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
-
+sys.stdout.reconfigure(encoding="utf-8")  # ✅ 이 줄 추가
 url = sys.argv[1]  # ✅ Node.js에서 넘긴 URL 받기
 options = webdriver.ChromeOptions()
 options.add_argument('--headless')
