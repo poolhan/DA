@@ -16,6 +16,11 @@ df_best = pd.read_sql('SELECT * FROM Bestraw', con=engine)
 df_book = pd.read_sql('SELECT * FROM Bookraw', con=engine)
 
 # 3. 공통 cleansing 함수 정의
+
+def clean_author(author_str):
+    if pd.isnull(author_str): return None
+    return str(author_str).split(',')[0].strip()
+    
 def clean_price(price_str):
     try:
         # '→' 기호가 있으면 왼쪽 정가만 추출
@@ -69,6 +74,7 @@ def clean_excerpt(text):
 
 # 4. Cleansing 적용
 def apply_cleansing(df):
+    df['author'] = df['author'].apply(clean_author)
     df['price'] = df['price'].apply(clean_price)
     df['area'] = df['size'].apply(extract_area)
     df['weight'] = df['weight'].apply(clean_weight)
