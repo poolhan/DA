@@ -3,11 +3,11 @@ import re
 from sqlalchemy import create_engine
 
 # 1. DB 연결 설정
-user = 'da'
-password = 'da1'
-host = '134.185.117.240'
-port = 3306
-database = 'DA'
+user = ''
+password = ''
+host = ''
+port = ''
+database = ''
 
 engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}")
 
