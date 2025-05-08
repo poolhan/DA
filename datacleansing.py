@@ -20,21 +20,19 @@ df_book = pd.read_sql('SELECT * FROM Bookraw', con=engine)
 def clean_author(author_str):
     if pd.isnull(author_str): return None
     return str(author_str).split(',')[0].strip()
-    
+
 def clean_price(price_str):
     try:
-        # '→' 기호가 있으면 왼쪽 정가만 추출
         if '→' in price_str:
             price_str = price_str.split('→')[0].strip()
         return int(str(price_str).replace('원', '').replace(',', '').strip())
     except:
         return None
 
-def extract_area(size_str):
+def clean_size(size_str):  # ← 기존 'extract_area'를 size 컬럼에 직접 적용
     if pd.isna(size_str):
         return None
     try:
-        # 괄호 제거 + mm 제거
         size_clean = re.sub(r'\(.*?\)', '', str(size_str))
         size_clean = size_clean.replace('mm', '').strip()
         width_str, height_str = size_clean.split('*')
@@ -62,13 +60,9 @@ def clean_description(text):
     return ' '.join(cleaned.split())
 
 def clean_excerpt(text):
-    # 1. 페이지 정보 제거 (예: P. 123, p123, (p.123), (p123), p.123-124, P.53~54 등 포함)
     text = re.sub(r'\(?[Pp]\.?\s?\d+([\-~]\d+)?\)?', '', text)
-    # 2. "접기", "...중", "[xxx]" 등 부가 정보 제거
     text = re.sub(r'접기|\.{2,}중|\[.*?\]', '', text)
-    # 3. 줄 끝의 '- 닉네임' 제거 (공백 포함)
     text = re.sub(r'-\s*[가-힣\w]+', '', text)
-    # 4. 줄바꿈/탭 → 공백으로, 중복 공백 제거
     text = re.sub(r'\s+', ' ', text).strip()
     return text
 
@@ -76,7 +70,7 @@ def clean_excerpt(text):
 def apply_cleansing(df):
     df['author'] = df['author'].apply(clean_author)
     df['price'] = df['price'].apply(clean_price)
-    df['area'] = df['size'].apply(extract_area)
+    df['size'] = df['size'].apply(clean_size)               # ← 바로 size 덮어쓰기
     df['weight'] = df['weight'].apply(clean_weight)
     df['records'] = df['records'].apply(clean_record)
     df['bookDescription'] = df['bookDescription'].apply(clean_description)
