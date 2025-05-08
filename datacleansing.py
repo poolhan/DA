@@ -60,11 +60,24 @@ def clean_description(text):
     return ' '.join(cleaned.split())
 
 def clean_excerpt(text):
-    text = re.sub(r'\(?[Pp]\.?\s?\d+([\-~]\d+)?\)?', '', text)
-    text = re.sub(r'접기|\.{2,}중|\[.*?\]', '', text)
-    text = re.sub(r'-\s*[가-힣\w]+', '', text)
-    text = re.sub(r'\s+', ' ', text).strip()
-    return text
+    try:
+        if pd.isnull(text):
+            return None
+        # 영어 페이지 표기 제거
+        text = re.sub(r'\(?[Pp]\.?\s?\d+([\-~]\d+)?\)?', '', text)
+        # 한글 페이지 범위 제거 ("50~60쪽", "122-125쪽")
+        text = re.sub(r'\d+[~\-]\d+쪽', '', text)
+        # 한글 단일 페이지 제거 ("128쪽")
+        text = re.sub(r'\d+쪽', '', text)
+        # 부가 정보 제거
+        text = re.sub(r'접기|\.{2,}중|\[.*?\]', '', text)
+        # 닉네임/서명 제거
+        text = re.sub(r'-\s*[가-힣\w]+', '', text)
+        # 공백 정리
+        text = re.sub(r'\s+', ' ', text).strip()
+        return text
+    except:
+        return None
 
 # 4. Cleansing 적용
 def apply_cleansing(df):
