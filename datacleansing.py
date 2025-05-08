@@ -69,6 +69,8 @@ def clean_excerpt(text):
         text = re.sub(r'\d+[~\-]\d+쪽', '', text)
         # 한글 단일 페이지 제거 ("128쪽")
         text = re.sub(r'\d+쪽', '', text)
+        # "P. 「작품명」 중에서" 제거
+        text = re.sub(r'[Pp]\.?\s*[「『].*?[」』]\s*중에서', '', text)
         # 부가 정보 제거
         text = re.sub(r'접기|\.{2,}중|\[.*?\]', '', text)
         # 닉네임/서명 제거
