@@ -14,9 +14,9 @@ except FileNotFoundError:
     print("⚠️ custom_stopwords.txt 파일이 없어 불용어 제거를 건너뜁니다.")
 
 # 그리드 탐색 파라미터
-min_dfs = [2, 5, 10]
-max_dfs = [0.5, 0.7, 0.9]
-k_values = [5, 7, 10, 15, 20]
+min_dfs = [2, 5]
+max_dfs = [0.7]
+k_values = [3, 4, 5,6, 7]
 results = []
 
 def main():
@@ -39,6 +39,14 @@ def main():
     df_result = pd.DataFrame(results, columns=["min_df", "max_df", "k", "coherence"])
     df_result.to_csv("coherence_gridsearch_results.csv", index=False)
     print("✅ 결과 저장 완료: coherence_gridsearch_results.csv")
+
+    # 최고 coherence 조합 출력
+    best_result = df_result.loc[df_result["coherence"].idxmax()]
+    print("\n🌟 최고 Coherence 조합:")
+    print(f"  min_df = {best_result['min_df']}")
+    print(f"  max_df = {best_result['max_df']}")
+    print(f"  k      = {best_result['k']}")
+    print(f"  coherence = {best_result['coherence']:.4f}")
 
 
 if __name__ == "__main__":
