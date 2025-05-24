@@ -19,7 +19,7 @@ except FileNotFoundError:
     print("⚠️ custom_stopwords.txt 파일이 없어 불용어 제거를 건너뜁니다.")
 
 results = []
-param_grid = list(product([2, 5, 10], [0.5, 0.7, 0.9]))
+param_grid = list(product([2, 5, 10, 50, 75, 100], [0.7, 0.9]))
 
 for min_df, max_df in param_grid:
     print(f"\n🔍 TF-IDF 실험: min_df={min_df}, max_df={max_df}")
