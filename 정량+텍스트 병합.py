@@ -1,9 +1,9 @@
 import pandas as pd
 
 # 1. 파일 경로
-rf_path = r"C:/Users/taeyo/OneDrive/바탕 화면/DA텍스트/RF전처리데이터셋.csv"
-lda_path = r"C:/Users/taeyo/OneDrive/바탕 화면/DA텍스트/통합lda.csv"
-save_path = r"C:/Users/taeyo/OneDrive/바탕 화면/DA텍스트/rf_lda_merged.csv"
+rf_path = r"경로/RF전처리데이터셋.csv"
+lda_path = r"경로/통합lda.csv"
+save_path = r"경로/rf_lda_merged.csv"
 
 # 2. CSV 불러오기
 rf_df = pd.read_csv(rf_path)
